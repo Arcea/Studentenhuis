@@ -1,7 +1,11 @@
 let express = require('express');
 let routes = express.Router();
 
+//Wachten tot de db gedaan is.
+
 routes.post('/register', function (req, res) {
+    console.log("Reached register");
+    console.log(req.body);
     if (req.body.name == "" || req.body.name == undefined) {
         res.json({
             error: "Name is empty or undefined"
@@ -24,6 +28,7 @@ routes.post('/register', function (req, res) {
     }
 });
 
+//Wachten tot er een manier is om met de db te chekken & JWT af is.
 routes.post('/login', function (req, res) {
 
 });
