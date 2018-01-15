@@ -19,7 +19,9 @@
   "homepage": "https://github.com/Arcea/Studentenhuis#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "nodemon": "^1.14.11"
   }
 }
