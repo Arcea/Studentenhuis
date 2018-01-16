@@ -2,7 +2,10 @@ let express = require('express');
 let routes = express.Router();
 let encrypt = require('./Helper/encrypt');
 
-
+routes.get('/', function(req, res){
+    res.contentType('application/json');
+    res.status(200);
+    res.json({'tekst' : 'Welcome to the app'})
 
 routes.post('/register', function (req, res) {
     console.log("Reached register");

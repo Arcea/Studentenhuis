@@ -13,3 +13,5 @@ let port = process.argv[2] || process.env.PORT || 8000;
 app.listen(port, function () {
     console.log("Server listening on " + port);
 });
+
+module.exports = app;
