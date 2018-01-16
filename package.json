@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node_modules/.bin/supervisor app --exit",
+    "start": "npm install && nodemon server.js",
     "test": "mocha"
   },
   "repository": {
@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/Arcea/Studentenhuis#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "nodemon": "^1.14.11",
