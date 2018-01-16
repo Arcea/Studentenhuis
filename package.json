@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node_modules/.bin/supervisor app --exit",
+    "start": "npm install && nodemon server.js",
     "test": "mocha"
   },
   "repository": {
