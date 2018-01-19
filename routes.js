@@ -86,4 +86,18 @@ routes.get('/maaltijd', function(req, res){
         }
     });
 });
+
+routes.post('/maaltijd', function(req, res){
+   var post = (req.body);
+   console.log(post);
+   Meal.addMeal(post, function(err, items){
+       if(err){console.log(err);}
+       else {
+           res.contentType('application/json'); 
+           res.status(200);
+           res.json({message: "Maaltijd successvol toegevoegd",
+                     maaltijd: post });
+       }
+   }) 
+});
 module.exports = routes;
