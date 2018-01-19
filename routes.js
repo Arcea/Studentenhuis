@@ -74,30 +74,84 @@ routes.post('/login', function (req, res) {
 });
 
 //Maaltijd
-routes.get('/maaltijd', function(req, res){
-    Meal.getMeal(function(err, items){
-        if(err){ console.log(err);} 
-        else {
-            //console.log(items);
+routes.get('/maaltijd', function(req, res) {
+    Meal.getMeals(function(err, items) {
+        if (err) {
             res.contentType('application/json'); 
-            res.status(200);
-            //Items komt van de functie af, hiermee tonen we de maaltijden op de pagina
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
             res.json(items);
         }
     });
 });
 
-routes.post('/maaltijd', function(req, res){
-   var post = (req.body);
-   console.log(post);
-   Meal.addMeal(post, function(err, items){
-       if(err){console.log(err);}
-       else {
-           res.contentType('application/json'); 
-           res.status(200);
-           res.json({message: "Maaltijd successvol toegevoegd",
-                     maaltijd: post });
-       }
-   }) 
+routes.post('/maaltijd', function(req, res) {
+    Meal.addMeal(req.body, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
 });
+
+routes.get('/maaltijd/:id', function(req, res) {
+    Meal.getMeal(req.params.id, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.put('/maaltijd/:id', function(req, res) {
+    Meal.updateMeal(req.params.id, req.body, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.delete('/maaltijd/:id', function(req, res) {
+    Meal.deleteMeal(req.params.id, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
 module.exports = routes;
