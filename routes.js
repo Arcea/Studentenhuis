@@ -1,18 +1,19 @@
 let express = require('express');
 let routes = express.Router();
 let encrypt = require('./Helper/encrypt');
+let Meal = require('./models/meal');
 
 routes.get('/', function(req, res){
     res.contentType('application/json');
     res.status(200);
     res.json({'tekst' : 'Welcome to the app'})
-
+});
 routes.post('/register', function (req, res) {
     console.log("Reached register");
     if (req.body.name == "" || req.body.name == undefined) {
         res.json({
             error: "Name is empty or undefined"
-        });
+        })
         return;
     }
 
@@ -72,4 +73,17 @@ routes.post('/login', function (req, res) {
     });
 });
 
+//Maaltijd
+routes.get('/maaltijd', function(req, res){
+    Meal.getMeal(function(err, items){
+        if(err){ console.log(err);} 
+        else {
+            //console.log(items);
+            res.contentType('application/json'); 
+            res.status(200);
+            //Items komt van de functie af, hiermee tonen we de maaltijden op de pagina
+            res.json(items);
+        }
+    });
+});
 module.exports = routes;
