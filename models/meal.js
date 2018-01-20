@@ -1,5 +1,5 @@
 var mysql = require('../database/connection');
-var Meal = function(){}
+var Meal = function () { }
 
 //Ophalen van alle maaltijden
 Meal.getMeals = function (callback) {
@@ -7,12 +7,12 @@ Meal.getMeals = function (callback) {
 
     mysql.connection(function (err, conn) {
         if (err) {
-            return callback({"status": 500, "error": err}, null);
+            return callback({ "status": 500, "error": err }, null);
         }
 
         conn.query(query, function (err, rows) {
             if (err) {
-                return callback({"status": 500, "error": err}, null);
+                return callback({ "status": 500, "error": err }, null);
             }
 
             conn.release();
@@ -22,18 +22,18 @@ Meal.getMeals = function (callback) {
 };
 
 //Ophalen van 1 maaltijd
-Meal.getMeal = function(id, callback) {
+Meal.getMeal = function (id, callback) {
     var query = "SELECT * FROM `Maaltijd` WHERE `idMaaltijd` = ?";
-    var objArray = [ id ];
+    var objArray = [id];
 
     mysql.connection(function (err, conn) {
         if (err) {
-            return callback({"status": 500, "error": err}, null);
+            return callback({ "status": 500, "error": err }, null);
         }
 
         conn.query(query, objArray, function (err, rows) {
             if (err) {
-                return callback({"status": 500, "error": err}, null);
+                return callback({ "status": 500, "error": err }, null);
             }
 
             conn.release();
@@ -43,7 +43,7 @@ Meal.getMeal = function(id, callback) {
 };
 
 //Toevoegen van een maaltijd
-Meal.addMeal = function(obj, callback){
+Meal.addMeal = function (obj, callback) {
     var query = "INSERT INTO `Maaltijd` VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
     var objArray = [
         obj.idKok,
@@ -57,17 +57,17 @@ Meal.addMeal = function(obj, callback){
     ];
 
     if (!obj.idKok || !obj.naamMaaltijd || !obj.maxEters || !obj.maaltijdBeginTijd || !obj.maaltijdEindTijd || !obj.kosten) {
-        return callback({"status": 400, "error": "Missing properties."}, null);
+        return callback({ "status": 400, "error": "Missing properties." }, null);
     }
 
     mysql.connection(function (err, conn) {
         if (err) {
-            return callback({"status": 500, "error": err}, null);
+            return callback({ "status": 500, "error": err }, null);
         }
 
         conn.query(query, objArray, function (err, rows) {
             if (err) {
-                return callback({"status": 500, "error": err}, null);
+                return callback({ "status": 500, "error": err }, null);
             }
 
             return callback(null, "Item inserted at id " + rows.insertId + ".");
@@ -76,7 +76,7 @@ Meal.addMeal = function(obj, callback){
 };
 
 //Bijwerken van een maaltijd
-Meal.updateMeal = function(id, obj, callback){
+Meal.updateMeal = function (id, obj, callback) {
     var query = "UPDATE `Maaltijd` SET ? WHERE `maaltijd`.`idMaaltijd` = ?";
     var objArray = [
         {
@@ -93,17 +93,17 @@ Meal.updateMeal = function(id, obj, callback){
     ];
 
     if (!obj.idKok || !obj.naamMaaltijd || !obj.maxEters || !obj.maaltijdBeginTijd || !obj.maaltijdEindTijd || !obj.kosten) {
-        return callback({"status": 400, "error": "Missing properties."}, null);
+        return callback({ "status": 400, "error": "Missing properties." }, null);
     }
 
     mysql.connection(function (err, conn) {
         if (err) {
-            return callback({"status": 500, "error": err}, null);
+            return callback({ "status": 500, "error": err }, null);
         }
 
         conn.query(query, objArray, function (err, rows) {
             if (err) {
-                return callback({"status": 500, "error": err}, null);
+                return callback({ "status": 500, "error": err }, null);
             }
 
             return callback(null, (rows.affectedRows > 0 ? "Item at id " + id + " updated." : "No object to update."));
@@ -112,18 +112,18 @@ Meal.updateMeal = function(id, obj, callback){
 };
 
 //Verwijderen van een maaltijd
-Meal.deleteMeal = function(id, callback){
+Meal.deleteMeal = function (id, callback) {
     var query = "DELETE FROM `Maaltijd` WHERE `idMaaltijd` = ?";
-    var objArray = [ id ];
+    var objArray = [id];
 
     mysql.connection(function (err, conn) {
         if (err) {
-            return callback({"status": 500, "error": err}, null);
+            return callback({ "status": 500, "error": err }, null);
         }
 
         conn.query(query, objArray, function (err, rows) {
             if (err) {
-                return callback({"status": 500, "error": err}, null);
+                return callback({ "status": 500, "error": err }, null);
             }
 
             return callback(null, (rows.affectedRows > 0 ? "Item at id " + id + " removed." : "No object to remove."));
