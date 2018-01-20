@@ -1,4 +1,4 @@
-/* Voor lokaal testen, updaten met lokale database gegevens */
+/* Voor lokaal testen, updaten met lokale database gegevens 
 module.exports = {
     "host": 'localhost',
     "database": 'mydb',
@@ -7,12 +7,12 @@ module.exports = {
     "dbport": 3306,
     "port": process.env.PORT || 3000,
 };
-/* Modules voor heroku 
+*/
+/* Modules voor heroku */
 module.exports = {
-    "host": process.env.host,
-    "database": process.env.dbName,
-    "user": process.env.dbUser,
-    "password": process.env.dbPwd,
-    "dbport": 3306,
-    "port":  process.env.PORT || 3000,
-}; */
+    "host": process.env.JAWSDB_URL || 'localhost',
+    "database": process.env.JAWSDB_URL? undefined : "studentenhuis",
+    "user": process.env.JAWSDB_URL? undefined : "root",
+    "password": process.env.JAWSDB_URL? undefined : "root",
+    "dbport": process.env.JAWSDB_URL ? undefined : "3306"
+};
