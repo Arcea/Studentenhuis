@@ -5,7 +5,7 @@ module.exports = {
     "user": 'root',
     "password": '',
     "dbport": 3306,
-    "port":  process.env.PORT || 3000,
+    "port": process.env.PORT || 3000,
 };
 /* Modules voor heroku 
 module.exports = {
