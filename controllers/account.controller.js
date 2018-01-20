@@ -5,9 +5,9 @@ let student = require('../models/student');
 var Account = function () { }
 
 Account.register = function (obj, cb) {
-    encrypt.hash(obj.wachtwoord, function (enc, err) {
+    encrypt.hash(obj.password, function (enc, err) {
         if (err == null) {
-            obj.wachtwoord = enc;
+            obj.password = enc;
             student.addStudent(obj, function (err, result) {
                 if (err) {
                     cb({

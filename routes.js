@@ -38,8 +38,8 @@ routes.post('/register', function (req, res) {
     }
 
     let obj = {};
-    obj.wachtwoord = req.body.password;
-    obj.naamStudent = req.body.name;
+    obj.password = req.body.password;
+    obj.name = req.body.name;
     obj.email = req.body.email;
 
     Account.register(obj, function (result) {
