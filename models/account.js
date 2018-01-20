@@ -29,7 +29,9 @@ Account.login = function (obj, cb) {
             if (err) throw err;
 
             let userPass = "";
+            let id = "";
             Object.keys(result).forEach(function (key) {
+                id = result[key].idStudenten;
                 userPass = result[key].wachtwoord;
             });
 
@@ -38,7 +40,7 @@ Account.login = function (obj, cb) {
                 if (result) {
 
                     let token = JWT.sign({
-                        id: result[key].idStudenten
+                        id: id
                     }, process.env.secret || 'devPassToken');
                     cb({
                         status: "success",
