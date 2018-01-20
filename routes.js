@@ -1,8 +1,9 @@
 let express = require('express');
 let routes = express.Router();
-let Meal = require('./models/meal');
-let Student = require('./models/student');
-let Account = require('./models/account');
+
+let Meal = require('./controllers/meal.controller');
+let Student = require('./controllers/student.controller');
+let Account = require('./controllers/account.controller');
 
 routes.get('/', function (req, res) {
     res.contentType('application/json');
@@ -99,6 +100,6 @@ routes.delete('/student/:id', Student.deleteStudent);
 
 // StudentMaaltijd endpoints
 routes.post('/maaltijd/:id/add-student', Meal.addStudent);
-routes.get('/maaltijd/:id/mee-eters', Meal.getMeeEters);
+routes.get('/maaltijd/:id/participants', Meal.getParticipants);
 
 module.exports = routes;

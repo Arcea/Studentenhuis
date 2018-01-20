@@ -1,5 +1,5 @@
 let tokenModule = require('jsonwebtoken');
-let database = require('./../Helper/database');
+let students = require('./../models/student');
 
 module.exports = {
     /**
@@ -22,7 +22,7 @@ module.exports = {
                         res.status(401).end("Requires Authentication");
                     } else {
                         //Verify payload.userID with DB here, wait for DB to finish.
-                        database.getStudentById(payload.userID, function(err, result) {
+                        students.getStudentById(payload.userID, function(err, result) {
                             if(!err && result != null) {
                                 next();
                             } else {

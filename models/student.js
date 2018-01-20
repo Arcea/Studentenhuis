@@ -1,151 +1,33 @@
-var mysql = require('../database/connection');
+var db = require('../Helper/database');
 
 module.exports = {
-    getStudents(req, res, next) {
-        var query = "SELECT * FROM `Student`";
+    getStudents: function(callback) {
+        let query = "SELECT * FROM `Student`";
 
-        console.log('Student getAll');
-
-        mysql.connection(function (error, connection) {
-            if (error) {
-                next(error);
-            }
-
-            connection.query(query, function (error, rows, fields) {
-                if (error) {
-                    next(error);
-                } else {
-                    res.status(200).json({
-                        status: {
-                            query: 'OK'
-                        },
-                        result: rows
-                    }).end();
-                };
-            });
-        });
+        db.executeQuery(query, callback);
     },
 
-    getStudentById(req, res, next) {
-        var query = "SELECT * FROM `Student` WHERE `idStudenten` = ?";
-        var id = req.params.id;
+    getStudentById: function(id, callback) {
+        let query = "SELECT * FROM `Student` WHERE `idStudenten` = ?";
 
-        console.log('Student getStudentById');
-
-        mysql.connection(function (error, connection) {
-            if (error) {
-                next(error);
-            }
-
-            connection.query(query, id, function (error, rows, fields) {
-                if (error) {
-                    next(error);
-                } else {
-                    res.status(200).json({
-                        status: {
-                            query: 'OK'
-                        },
-                        result: rows
-                    }).end();
-                };
-            });
-        });
+        db.executeQueryParameterized(query, id, callback);
     },
 
-    addStudent(req, res, next) {
-        var query = "INSERT INTO `Student` VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
-        var params = [
-            req.body.naamStudent,
-            req.body.email,
-            req.body.wachtwoord
-        ];
+    addStudent: function(student, callback) {
+        let query = "INSERT INTO `student` (`idStudenten`, `naamStudent`, `email`, `wachtwoord`) VALUES (NULL, ?, ?, ?);";
 
-        console.log('Student addStudent');
-
-        if (!req.body.naamStudent || !req.body.email || !req.body.wachtwoord) {
-            next("Missing properties.");
-        }
-
-        mysql.connection(function (error, connection) {
-            if (error) {
-                next(error);
-            }
-
-            connection.query(query, params, function (error, rows, fields) {
-                if (error) {
-                    next(error);
-                } else {
-                    res.status(200).json({
-                        status: {
-                            query: 'OK'
-                        },
-                        result: rows
-                    }).end();
-                };
-            });
-        });
+        db.executeQueryParameterized(query, student, callback);
     },
 
-    updateStudent(req, res, next) {
-        var query = "UPDATE `Student` SET ? WHERE `Student`.`idStudenten` = ?";
-        var params = [
-            {
-                "naamStudent": req.body.naamStudent,
-                "email": req.body.email,
-                "wachtwoord": req.body.wachtwoord
-            },
-            req.params.id
-        ];
+    updateStudent: function(id, student, callback) {
+        let query = "UPDATE `Student` SET ? WHERE `Student`.`idStudenten` = ?";
 
-        console.log('Student updateStudent');
-
-        if (!req.body.naamStudent || !req.body.email || !req.body.wachtwoord) {
-            next("Missing properties.");
-        }
-
-        mysql.connection(function (error, connection) {
-            if (error) {
-                next(error);
-            }
-
-            connection.query(query, params, function (error, rows, fields) {
-                if (error) {
-                    next(error);
-                } else {
-                    res.status(200).json({
-                        status: {
-                            query: 'OK'
-                        },
-                        result: rows
-                    }).end();
-                };
-            });
-        });
+        db.executeQueryParameterized(query, [student, id], callback);
     },
-    
-    deleteStudent(req, res, next) {
-        var query = "DELETE FROM `Student` WHERE `idStudenten` = ?";
-        var id = req.params.id;
 
-        console.log('Student deleteStudent');
+    deleteStudent: function(id, callback) {
+        let query = "DELETE FROM `Student` WHERE `idStudenten` = ?";
 
-        mysql.connection(function (error, connection) {
-            if (error) {
-                next(error);
-            }
-
-            connection.query(query, id, function (error, rows, fields) {
-                if (error) {
-                    next(error);
-                } else {
-                    res.status(200).json({
-                        status: {
-                            query: 'OK'
-                        },
-                        result: rows
-                    }).end();
-                };
-            });
-        });
+        db.executeQueryParameterized(query, id, callback);
     },
 }
