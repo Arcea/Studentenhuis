@@ -37,24 +37,14 @@ routes.post('/register', function (req, res) {
         return;
     }
 
-    encrypt.hash(req.body.password, function (enc, err) {
-        if (err == null) {
-            let obj = {};
-            obj.password = enc;
-            obj.name = req.body.name;
-            obj.email = req.body.email;
+    let obj = {};
+    obj.wachtwoord = req.body.password;
+    obj.naamStudent = req.body.name;
+    obj.email = req.body.email;
 
-            Account.register(obj, function (result) {
-                res.json(result);
-            });
-        } else {
-            res.json({
-                status: "failed",
-                error: "Unexpected error: " + err
-            });
-        }
+    Account.register(obj, function (result) {
+        res.json(result);
     });
-
 });
 
 routes.post('/login', function (req, res) {

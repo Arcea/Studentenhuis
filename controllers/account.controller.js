@@ -1,21 +1,31 @@
 var mysql = require('../database/connection');
 let encrypt = require('../Helper/encrypt');
 let JWT = require('jsonwebtoken');
+let student = require('../models/student');
 var Account = function () { }
 
 Account.register = function (obj, cb) {
-    mysql.connection(function (err, conn) {
-        if (err)
-            console.log(err);
-
-        let query = "INSERT INTO `student` VALUES ('" + obj.name + "', '" + obj.email + "', '" + obj.password + "')";
-        conn.query(query, function (err, result) {
-            if (err) throw err;
-
-            cb({
-                status: "success"
+    encrypt.hash(obj.wachtwoord, function (enc, err) {
+        if (err == null) {
+            obj.wachtwoord = enc;
+            student.addStudent(obj, function (err, result) {
+                if (err) {
+                    cb({
+                        status: "failed",
+                        error: "Unexpected error: " + err
+                    });
+                } else {
+                    cb({
+                        status: "success"
+                    });
+                }
             });
-        });
+        } else {
+            cb({
+                status: "failed",
+                error: "Unexpected error: " + err
+            });
+        }
     });
 }
 
