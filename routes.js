@@ -1,6 +1,7 @@
 let express = require('express');
 let routes = express.Router();
 let Meal = require('./models/meal');
+let Student = require('./models/student');
 let Account = require('./models/account');
 
 routes.get('/', function (req, res) {
@@ -82,85 +83,22 @@ routes.post('/login', function (req, res) {
     });
 });
 
-//Maaltijd
-routes.get('/maaltijd', function (req, res) {
-    Meal.getMeals(function (err, items) {
-        if (err) {
-            res.contentType('application/json');
-            res.status(err.status);
-            res.json(err.error);
-        }
+// Maaltijd endpoints
+routes.get('/maaltijd', Meal.getMeals);
+routes.get('/maaltijd/:id', Meal.getMealById);
+routes.post('/maaltijd', Meal.addMeal);
+routes.put('/maaltijd/:id', Meal.updateMeal);
+routes.delete('/maaltijd/:id', Meal.deleteMeal);
 
-        else {
-            res.contentType('application/json');
-            res.status(items.length > 0 ? 200 : 404);
-            res.json(items);
-        }
-    });
-});
+// Student endpoints
+routes.get('/student', Student.getStudents);
+routes.get('/student/:id', Student.getStudentById);
+routes.post('/student', Student.addStudent);
+routes.put('/student/:id', Student.updateStudent);
+routes.delete('/student/:id', Student.deleteStudent);
 
-routes.post('/maaltijd', function (req, res) {
-    Meal.addMeal(req.body, function (err, items) {
-        if (err) {
-            res.contentType('application/json');
-            res.status(err.status);
-            res.json(err.error);
-        }
-
-        else {
-            res.contentType('application/json');
-            res.status(items.length > 0 ? 200 : 404);
-            res.json(items);
-        }
-    });
-});
-
-routes.get('/maaltijd/:id', function (req, res) {
-    Meal.getMeal(req.params.id, function (err, items) {
-        if (err) {
-            res.contentType('application/json');
-            res.status(err.status);
-            res.json(err.error);
-        }
-
-        else {
-            res.contentType('application/json');
-            res.status(items.length > 0 ? 200 : 404);
-            res.json(items);
-        }
-    });
-});
-
-routes.put('/maaltijd/:id', function (req, res) {
-    Meal.updateMeal(req.params.id, req.body, function (err, items) {
-        if (err) {
-            res.contentType('application/json');
-            res.status(err.status);
-            res.json(err.error);
-        }
-
-        else {
-            res.contentType('application/json');
-            res.status(items.length > 0 ? 200 : 404);
-            res.json(items);
-        }
-    });
-});
-
-routes.delete('/maaltijd/:id', function (req, res) {
-    Meal.deleteMeal(req.params.id, function (err, items) {
-        if (err) {
-            res.contentType('application/json');
-            res.status(err.status);
-            res.json(err.error);
-        }
-
-        else {
-            res.contentType('application/json');
-            res.status(items.length > 0 ? 200 : 404);
-            res.json(items);
-        }
-    });
-});
+// StudentMaaltijd endpoints
+routes.post('/maaltijd/:id/add-student', Meal.addStudent);
+routes.get('/maaltijd/:id/mee-eters', Meal.getMeeEters);
 
 module.exports = routes;
