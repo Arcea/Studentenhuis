@@ -14,7 +14,7 @@ module.exports = {
     },
 
     addStudent: function(student, callback) {
-        let query = "INSERT INTO `student` (`idStudenten`, `naamStudent`, `email`, `wachtwoord`) VALUES (NULL, ?, ?, ?);";
+        let query = "INSERT INTO `student` (`naamStudent`, `email`, `wachtwoord`) VALUES (?, ?, ?);";
 
         db.executeQueryParameterized(query, student, callback);
     },
