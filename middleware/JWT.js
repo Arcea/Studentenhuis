@@ -9,21 +9,18 @@ module.exports = {
      * @param {*} next Call the next middleware in line
      */
     JWT(req, res, next) {
-        if(req.url == "/login" || req.url == "/register") {
+        if (req.url == "/login" || req.url == "/register") {
             next();
         } else {
             let token = req.headers["authentication"];
-            console.log(token);
-            if(token != null && token != undefined && token != "") {
-                console.log(token);
-                tokenModule.verify(token, process.env.secret || 'devPassToken', function(err, payload) {
+            if (token != null && token != undefined && token != "") {
+                tokenModule.verify(token, process.env.secret || 'devPassToken', function (err, payload) {
                     if (err) {
-                        console.log(err);
                         res.status(401).end("Requires Authentication");
                     } else {
                         //Verify payload.userID with DB here, wait for DB to finish.
-                        students.getStudentById(payload.userID, function(err, result) {
-                            if(!err && result != null) {
+                        students.getStudentById(payload.id, function (err, result) {
+                            if (!err && result != null) {
                                 next();
                             } else {
                                 res.status(401).end("Requires Authentication");
