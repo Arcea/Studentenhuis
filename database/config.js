@@ -1,8 +1,8 @@
 /* Voor lokaal testen, updaten met lokale database gegevens */
 module.exports = {
     "host": 'localhost',
-    "database": '',
-    "user": '',
+    "database": 'mydb',
+    "user": 'root',
     "password": '',
     "dbport": 3306,
     "port":  process.env.PORT || 3000,
