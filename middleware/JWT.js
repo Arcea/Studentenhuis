@@ -1,4 +1,5 @@
 let tokenModule = require('jsonwebtoken');
+let database = require('./../Helper/database');
 
 module.exports = {
     /**
@@ -11,7 +12,8 @@ module.exports = {
         if(req.url == "/login" || req.url == "/register") {
             next();
         } else {
-            let token = req.cookies.Session;
+            let token = req.headers["authentication"];
+            console.log(token);
             if(token != null && token != undefined && token != "") {
                 console.log(token);
                 tokenModule.verify(token, process.env.secret || 'devPassToken', function(err, payload) {
@@ -20,6 +22,13 @@ module.exports = {
                         res.status(401).end("Requires Authentication");
                     } else {
                         //Verify payload.userID with DB here, wait for DB to finish.
+                        database.getStudentById(payload.userID, function(err, result) {
+                            if(!err && result != null) {
+                                next();
+                            } else {
+                                res.status(401).end("Requires Authentication");
+                            }
+                        });
                     }
                 })
             } else {

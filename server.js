@@ -1,13 +1,11 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let JWT = require('./middleware/JWT').JWT;
-let cookieParser = require("cookie-parser");
 let routes = require('./routes');
 
 const app = express();
 
-app.use(cookieParser())
-//Please keep this middleware as the second, to prevent unnecesarry calculations on invalid requests.
+//Please keep this middleware as the first, to prevent unnecesarry calculations on invalid requests.
 app.use(function(req, res, next) {
     JWT(req, res, next);
 });
