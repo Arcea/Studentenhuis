@@ -20,7 +20,7 @@ module.exports = {
         let crypted = cipher.update(text, 'utf8', 'hex');
         crypted += cipher.final('hex');
         //Append "hidden-in-plain-sight" iv to keep compatibility through server restarts
-        crypted += "." + this.getCharCodesFromIv(iv, );
+        crypted += "." + this.getCharCodesFromIv(iv);
         console.log(crypted);
         cb(crypted);
     },
