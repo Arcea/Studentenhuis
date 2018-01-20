@@ -1,5 +1,6 @@
 var mysql = require('../database/connection');
 let encrypt = require('../Helper/encrypt');
+let JWT = require('jsonwebtoken');
 var Account = function () { }
 
 Account.register = function (obj, cb) {
@@ -28,7 +29,9 @@ Account.login = function (obj, cb) {
             if (err) throw err;
 
             let userPass = "";
+            let id = "";
             Object.keys(result).forEach(function (key) {
+                id = result[key].idStudenten;
                 userPass = result[key].wachtwoord;
             });
 
@@ -36,9 +39,12 @@ Account.login = function (obj, cb) {
                 console.log(result);
                 if (result) {
 
-                    //generate JWT, until this is finished just do
+                    let token = JWT.sign({
+                        id: id
+                    }, process.env.secret || 'devPassToken');
                     cb({
-                        status: "success"
+                        status: "success",
+                        token: token
                     })
                 } else {
                     cb({
