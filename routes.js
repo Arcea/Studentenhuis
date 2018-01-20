@@ -1,13 +1,12 @@
 let express = require('express');
 let routes = express.Router();
 let encrypt = require('./Helper/encrypt');
-let db = require('./database/connection.js');
+let Meal = require('./models/meal');
 
 routes.get('/', function (req, res) {
     res.contentType('application/json');
     res.status(200);
-    res.json({ 'tekst': 'Welcome to the app' })
-});
+    res.json({'tekst' : 'Welcome to the app'})
 
 routes.post('/register', function (req, res) {
     console.log("Reached register");
@@ -15,7 +14,7 @@ routes.post('/register', function (req, res) {
         res.json({
             status: "failed",
             error: "Name is empty or undefined"
-        });
+        })
         return;
     }
 
@@ -35,7 +34,6 @@ routes.post('/register', function (req, res) {
         return;
     }
 
-    //Implement insert into db
     encrypt.hash(req.body.password, function (enc, err) {
         if (err == null) {
             req.body.password = enc;
@@ -113,6 +111,87 @@ routes.post('/login', function (req, res) {
     });
 
 
+});
+
+//Maaltijd
+routes.get('/maaltijd', function(req, res) {
+    Meal.getMeals(function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.post('/maaltijd', function(req, res) {
+    Meal.addMeal(req.body, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.get('/maaltijd/:id', function(req, res) {
+    Meal.getMeal(req.params.id, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.put('/maaltijd/:id', function(req, res) {
+    Meal.updateMeal(req.params.id, req.body, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
+});
+
+routes.delete('/maaltijd/:id', function(req, res) {
+    Meal.deleteMeal(req.params.id, function(err, items) {
+        if (err) {
+            res.contentType('application/json'); 
+            res.status(err.status);
+            res.json(err.error);
+        }
+
+        else {
+            res.contentType('application/json'); 
+            res.status(items.length > 0 ? 200 : 404);
+            res.json(items);
+        }
+    });
 });
 
 module.exports = routes;
