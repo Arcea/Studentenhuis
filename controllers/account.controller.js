@@ -8,7 +8,7 @@ Account.register = function (obj, cb) {
     encrypt.hash(obj.password, function (enc, err) {
         if (err == null) {
             obj.password = enc;
-            student.addStudent(obj, function (err, result) {
+            student.addStudent([obj.name, obj.email, obj.password], function (err, result) {
                 if (err) {
                     cb({
                         status: "failed",
