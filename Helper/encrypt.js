@@ -77,13 +77,7 @@ module.exports = {
         });
     },
 
-    getPayload: function (token, cb) {
-        tokenModule.verify(token, process.env.secret || 'devPassToken', function (err, payload) {
-            if (err) {
-                cb(err, null);
-            } else {
-                cb(null, payload);
-            }
-        })
+    getPayload: function (token) {
+        return tokenModule.decode(token);
     }
 }

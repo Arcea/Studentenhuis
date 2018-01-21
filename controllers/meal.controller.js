@@ -42,27 +42,21 @@ module.exports = {
 
     addMeal(req, res, next) {
         let token = req.headers["authentication"];
-        encrypt.getPayload(token, function (err, payload) {
-            if (err) {
-                res.status(401).end("Requires Authentication");
-            } else {
-                req.body.idKok = payload.id;
-                if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
-                    res.sendStatus(400);
+        req.body.idKok = encrypt.getPayload(token).userID;
+        if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
+            res.sendStatus(400);
+        } else {
+            meals.addMeal([req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
+                if (err) {
+                    next(err);
                 } else {
-                    meals.addMeal([req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
-                        if (err) {
-                            next(err);
-                        } else {
-                            res.status(200).json({
-                                status: 'OK',
-                                result: result
-                            }).end();
-                        }
-                    });
+                    res.status(200).json({
+                        status: 'OK',
+                        result: result
+                    }).end();
                 }
-            }
-        });
+            });
+        }
     },
 
     updateMeal(req, res, next) {

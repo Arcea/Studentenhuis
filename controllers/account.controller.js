@@ -50,7 +50,7 @@ Account.login = function (obj, cb) {
                 if (result) {
 
                     let token = JWT.sign({
-                        id: id
+                        userID: id
                     }, process.env.secret || 'devPassToken');
                     cb({
                         status: "success",

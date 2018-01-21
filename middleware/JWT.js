@@ -1,4 +1,4 @@
-let encrypt = require('../Helper/encrypt');
+let tokenModule = require("jsonwebtoken");
 let students = require('./../models/student');
 
 module.exports = {
@@ -15,11 +15,11 @@ module.exports = {
             let token = req.headers["authentication"];
             if (token != null && token != undefined && token != "") {
                 //Verify payload.userID with DB here, wait for DB to finish.
-                encrypt.getPayload(token, function (err, payload) {
+                tokenModule.verify(token, process.env.secret || 'devPassToken', function (err, payload) {
                     if (err) {
                         res.status(401).end("Requires Authentication");
                     } else {
-                        students.getStudentById(payload.id, function (err, result) {
+                        students.getStudentById(payload.userID, function (err, result) {
                             if (!err && result != null) {
                                 next();
                             } else {
