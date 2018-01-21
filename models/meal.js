@@ -20,9 +20,9 @@ module.exports = {
     },
 
     updateMeal: function (id, meal, callback) {
-        let query = "UPDATE `Maaltijd` SET ? WHERE `maaltijd`.`idMaaltijd` = ?";
+        let query = "UPDATE `Maaltijd` SET `idKok` = ?, `naamMaaltijd` = ?, `maaltijdAfbeelding` = ?, `maxEters` = ?, `maaltijdBeginTijd` = ?, `maaltijdEindTijd` = ?, `kosten` = ?, `beschrijving` = ? WHERE `maaltijd`.`idMaaltijd` = " + id;
 
-        db.executeQueryParameterized(query, [meal, id], callback);
+        db.executeQueryParameterized(query, meal, callback);
     },
 
     deleteMeal: function (id, callback) {
