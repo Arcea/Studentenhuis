@@ -12,6 +12,8 @@ var pool = mysql.createPool({
     Gebruik van de module node-mysql, een wrapper
     Zorgt ervoor dat de connectie niet constant open-staat.
 */
-var connection = mysql.createConnection(process.env.JAWSDB_URL || "mysql://root:root@localhost:3306/mydb");
+var connection = function(cb) {
+    cb(mysql.createConnection(process.env.JAWSDB_URL || "mysql://root:root@localhost:3306/mydb"));
+}
 
 exports.connection = connection;
