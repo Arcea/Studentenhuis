@@ -10,6 +10,5 @@ module.exports = {
 */
 /* Modules voor heroku */
 module.exports = {
-    "host": process.env.JAWSDB_URL || 'mysql://root:root@localhost:3306/mydb',
-    "port": null
+    "host": process.env.JAWSDB_URL || 'mysql://root:root@localhost:3306/mydb'
 };
