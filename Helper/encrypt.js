@@ -1,5 +1,6 @@
 let crypto = require('crypto');
 let bcrypt = require('bcrypt');
+let tokenModule = require('jsonwebtoken');
 const ALGORITHM = 'aes-256-cbc'
 const IV_LENGTH = 16;
 const PASSWORD = process.env.ENCRYPT_PASS || 'devPassPass';
@@ -74,5 +75,15 @@ module.exports = {
 
             cb(bool, null);
         });
+    },
+
+    getPayload: function (token, cb) {
+        tokenModule.verify(token, process.env.secret || 'devPassToken', function (err, payload) {
+            if (err) {
+                cb(err, null);
+            } else {
+                cb(null, payload);
+            }
+        })
     }
 }

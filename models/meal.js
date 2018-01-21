@@ -14,7 +14,7 @@ module.exports = {
     },
 
     addMeal: function (meal, callback) {
-        let query = "INSERT INTO `maaltijd` (`idKok`, `naamMaaltijd`, `maaltijdAfbeelding`, `maxEters`, `maaltijdBeginTijd`, `maaltijdEindTijd`, `kosten`, `beschrijving`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        let query = "INSERT INTO `maaltijd` (`idKok`, `naamMaaltijd`, `maaltijdAfbeelding`, `maxEters`, `maaltijdBeginTijd`, `kosten`, `beschrijving`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         db.executeQueryParameterized(query, meal, callback);
     },

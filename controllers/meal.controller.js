@@ -1,4 +1,5 @@
 var meals = require('../models/meal');
+var encrypt = require('../Helper/encrypt');
 
 module.exports = {
     getMeals(req, res, next) {
@@ -40,22 +41,28 @@ module.exports = {
     },
 
     addMeal(req, res, next) {
-        console.log('Meal addMeal');
-
-        if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.maaltijdEindTijd || !req.body.kosten) {
-            res.sendStatus(400);
-        } else {
-            meals.addMeal([req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.maaltijdEindTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
-                if (err) {
-                    next(err);
+        let token = req.headers["authentication"];
+        encrypt.getPayload(token, function (err, payload) {
+            if (err) {
+                res.status(401).end("Requires Authentication");
+            } else {
+                req.body.idKok = payload.id;
+                if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
+                    res.sendStatus(400);
                 } else {
-                    res.status(200).json({
-                        status: 'OK',
-                        result: result
-                    }).end();
+                    meals.addMeal([req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
+                        if (err) {
+                            next(err);
+                        } else {
+                            res.status(200).json({
+                                status: 'OK',
+                                result: result
+                            }).end();
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
     },
 
     updateMeal(req, res, next) {
@@ -76,7 +83,7 @@ module.exports = {
             });
         }
     },
-    
+
     deleteMeal(req, res, next) {
         console.log('Meal deleteMeal');
 
