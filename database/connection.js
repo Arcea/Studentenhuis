@@ -13,11 +13,17 @@ var pool = mysql.createPool({
     Zorgt ervoor dat de connectie niet constant open-staat.
 */
 var connection = function (callback) {
+    console.log("pool");
+    console.log(pool)
     pool.getConnection(function (err, conn) {
         if (err) {
+            console.log("error making connection");
+            console.log(err);
             callback(err, null);
             return;
         } else {
+            console.log("Connection success");
+            console.log(conn);
             return callback(null, conn);
         }
     })
