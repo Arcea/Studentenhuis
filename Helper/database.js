@@ -22,6 +22,7 @@ module.exports = {
             if(err) {
                 callback(err);
             } else {
+                console.log(connection);
                 connection.query(query, params, function(err, rows, fields) {
                     if(err) {
                         callback(err, null);
