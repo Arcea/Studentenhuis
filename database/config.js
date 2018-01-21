@@ -11,8 +11,8 @@ module.exports = {
 /* Modules voor heroku */
 module.exports = {
     "host": process.env.JAWSDB_URL || 'localhost',
-    "database": process.env.JAWSDB_URL ? undefined : "mydb",
-    "user": process.env.JAWSDB_URL ? undefined : "root",
-    "password": process.env.JAWSDB_URL ? undefined : "",
-    "dbport": process.env.JAWSDB_URL ? undefined : "3306"
+    "database": process.env.JAWSDB_URL != undefined ? undefined : "mydb",
+    "user": process.env.JAWSDB_URL != undefined ? undefined : "root",
+    "password": process.env.JAWSDB_URL != undefined ? undefined : "",
+    "dbport": process.env.JAWSDB_URL != undefined ? undefined : "3306"
 };
