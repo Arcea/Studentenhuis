@@ -36,6 +36,7 @@ Account.login = function (obj, cb) {
 
         let query = "SELECT * FROM `student` WHERE email = '" + obj.email + "'";
         conn.query(query, function (err, result) {
+            conn.release();
             if (err) throw err;
 
             let userPass = "";
