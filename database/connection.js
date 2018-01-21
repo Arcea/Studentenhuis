@@ -13,7 +13,7 @@ var pool = mysql.createPool({
     Zorgt ervoor dat de connectie niet constant open-staat.
 */
 var connection = function(cb) {
-    cb(mysql.createConnection(process.env.JAWSDB_URL || "mysql://root:root@localhost:3306/mydb"));
+    cb(null, mysql.createConnection(process.env.JAWSDB_URL || "mysql://root:root@localhost:3306/mydb"));
 }
 
 exports.connection = connection;
