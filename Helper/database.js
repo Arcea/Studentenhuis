@@ -7,7 +7,6 @@ module.exports = {
                 callback(err);
             } else {
                 connection.query(query, function(err, rows, fields) {
-                    connection.release();
                     if(err) {
                         callback(err, null);
                     } else {
@@ -23,9 +22,7 @@ module.exports = {
             if(err) {
                 callback(err);
             } else {
-                console.log(connection);
                 connection.query(query, params, function(err, rows, fields) {
-                    connection.release();
                     if(err) {
                         callback(err, null);
                     } else {
