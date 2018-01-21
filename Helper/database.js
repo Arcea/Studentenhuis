@@ -13,6 +13,8 @@ module.exports = {
                         callback(null, rows);
                     }
                 });
+
+                connection.end();
             }      
         });
     },
@@ -29,6 +31,8 @@ module.exports = {
                         callback(null, rows);
                     }
                 });
+
+                connection.end();
             }
         });
     }
