@@ -1,12 +1,6 @@
 var mysql = require('mysql');
 var config = require('./config');
 
-console.log(config.host);
-var pool = mysql.createPool({
-    connectionLimit: 50,
-    host: config.host,
-    debug: false
-});
 
 /* 
     Gebruik van de module node-mysql, een wrapper
