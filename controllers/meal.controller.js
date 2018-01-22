@@ -113,6 +113,7 @@ module.exports = {
             if (err) {
                 next(err);
             } else {
+                var forbidden = true;
                 if (result.length < 1) {
                     res.sendStatus(404);
                 } else {
@@ -127,7 +128,6 @@ module.exports = {
                             if (err) {
                                 next(err);
                             } else {
-                                var forbidden = true;
                                 for (var i = result.length - 1; i >= 0; i--) {
                                     if (req.body.idStudent == result[i].idStudent) {
                                         next("Already signed up for that meal.");
