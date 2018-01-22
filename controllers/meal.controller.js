@@ -116,6 +116,8 @@ module.exports = {
                 if (result.length < 1) {
                     res.sendStatus(404);
                 } else {
+                    let token = req.headers["authentication"];
+                    req.body.idStudent = encrypt.getPayload(token).userID;
                     if (!req.body.idStudent || !req.body.aantalMeeEters) {
                         res.sendStatus(400);
                     } else {
