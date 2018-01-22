@@ -9,7 +9,7 @@ module.exports = {
      * @param {*} next Call the next middleware in line
      */
     JWT(req, res, next) {
-        if (req.url == "/login" || req.url == "/register") {
+        if (req.url == "/login" || req.url == "/register" || req.url == "/") {
             next();
         } else {
             let token = req.headers["authentication"];
