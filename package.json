@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "postinstall": "./node_modules/mocha/bin/mocha install",
     "start": "npm install && nodemon server.js",
     "test": "mocha"
   },
