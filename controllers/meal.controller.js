@@ -127,51 +127,55 @@ module.exports = {
                             if (err) {
                                 next(err);
                             } else {
+                                var forbidden = true;
                                 for (var i = result.length - 1; i >= 0; i--) {
                                     if (req.body.idStudent == result[i].idStudent) {
                                         next("Already signed up for that meal.");
+                                        forbidden = false;
                                         return;
                                     }
                                 }
                             }
                         });
 
-                        meals.getParticipantsCount(req.params.id, function (err, result) {
-                            if (err) {
-                                next(err);
-                            } else {
-                                participantsCount = result[0].totaalAantalMeeEters;
-                            }
-                        });
-
-                        meals.getMaxParticipantsCount(req.params.id, function (err, result) {
-                            if (err) {
-                                next(err);
-                            } else {
-                                maxParticipantsCount = result[0].maxEters;
-                            }
-                        });
-
-                        if (participantsCount + req.body.aantalMeeEters > maxParticipantsCount) {
-                            next("No room left for this meal.");
-                        } else {
-                            meals.addStudent(req.params.id, [req.body.idStudent, req.body.aantalMeeEters], function (err, result) {
+                        if (!forbidden) {
+                            meals.getParticipantsCount(req.params.id, function (err, result) {
                                 if (err) {
                                     next(err);
                                 } else {
-                                    try {
-                                        res.status(200).json({
-                                            status: 'OK',
-                                            result: result
-                                        }).end();
-                                    } catch (err) {
-                                        // It's fine -- really!
-                                        if (err.name !== "Error [ERR_HTTP_HEADERS_SENT]") {
-                                            next(err);
-                                        }
-                                    }
+                                    participantsCount = result[0].totaalAantalMeeEters;
                                 }
                             });
+
+                            meals.getMaxParticipantsCount(req.params.id, function (err, result) {
+                                if (err) {
+                                    next(err);
+                                } else {
+                                    maxParticipantsCount = result[0].maxEters;
+                                }
+                            });
+
+                            if (participantsCount + req.body.aantalMeeEters > maxParticipantsCount) {
+                                next("No room left for this meal.");
+                            } else {
+                                meals.addStudent(req.params.id, [req.body.idStudent, req.body.aantalMeeEters], function (err, result) {
+                                    if (err) {
+                                        next(err);
+                                    } else {
+                                        try {
+                                            res.status(200).json({
+                                                status: 'OK',
+                                                result: result
+                                            }).end();
+                                        } catch (err) {
+                                            // It's fine -- really!
+                                            if (err.name !== "Error [ERR_HTTP_HEADERS_SENT]") {
+                                                next(err);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
                         }
                     }
                 }
