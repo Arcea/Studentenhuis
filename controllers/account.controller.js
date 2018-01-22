@@ -64,8 +64,7 @@ Account.login = function (obj, cb) {
                 }
             });
         });
-
-        connection.end();
+        conn.end();
     });
 }
 
