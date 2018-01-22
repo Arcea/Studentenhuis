@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "prepublish": "mocha",
     "start": "npm install && nodemon server.js",
     "test": "mocha"
   },
