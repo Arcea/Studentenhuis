@@ -130,7 +130,7 @@ module.exports = {
                                 for (var i = result.length - 1; i >= 0; i--) {
                                     if (req.body.idStudent == result[i].idStudent) {
                                         next("Already signed up for that meal.");
-                                        break;
+                                        return;
                                     }
                                 }
                             }
