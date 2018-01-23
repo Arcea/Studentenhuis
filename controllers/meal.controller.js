@@ -81,7 +81,9 @@ module.exports = {
                     });
 
                     if(req.body.chefEetMee == true) {
-                        meals.addStudent(result.id, req.body.idKok);
+                        meals.addStudent(result.id, req.body.idKok, function(err, dontcare) {
+                            if (err) console.log(err);
+                        });
                     }
                 }
             });
