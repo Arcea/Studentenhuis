@@ -45,7 +45,7 @@ Account.login = function (obj, cb) {
                 userPass = result[key].wachtwoord;
             });
 
-            encrypt.verifyHash(obj.password, userPass, function (result, err) {
+            encrypt.verifyHash(obj.password, userPass, function (err, result) {
                 console.log(result);
                 if (result) {
 
