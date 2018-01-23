@@ -45,6 +45,7 @@ module.exports = {
         let token = req.headers["authentication"];
         req.body.idKok = encrypt.getPayload(token).userID;
         var name = "";
+        var maaltijdAfbeeldingUrl = null;
         if (req.body.maaltijdAfbeelding) {
             if (/[-\/\\^$*+?.()|[\]{}!;:,]/g.test(req.body.naamMaaltijd)) {
                 req.body.naamMaaltijd = req.body.naamMaaltijd.replace(/[-\/\\^$*+?.()|[\]{}!;:,]/g, "");
@@ -54,7 +55,7 @@ module.exports = {
                 name = req.body.naamMaaltijd.replace(/ /g, "");
             }
 
-            let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + name + req.body.idKok + req.body.maxEters;
+            maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/    " + name + req.body.idKok + req.body.maxEters;
 
             let maaltijdAfbeeldingPath = "images/" + name + req.body.idKok + req.body.maxEters;
 
@@ -86,23 +87,24 @@ module.exports = {
                     res.status(400).end("Images only support .png and .jpg");
                 }
             }
-            meals.addMeal([req.body.idKok, req.body.naamMaaltijd, maaltijdAfbeeldingUrl, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
-                if (err) {
-                    next(err);
-                } else {
-                    res.status(200).json({
-                        status: 'OK',
-                        result: result
-                    });
-
-                    if (req.body.chefEetMee == true) {
-                        meals.addStudent(result.id, req.body.idKok, function (err, dontcare) {
-                            if (err) console.log(err);
-                        });
-                    }
-                }
-            });
         }
+        meals.addMeal([req.body.idKok, req.body.naamMaaltijd, maaltijdAfbeeldingUrl, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
+            if (err) {
+                next(err);
+            } else {
+                res.status(200).json({
+                    status: 'OK',
+                    result: result
+                });
+
+                if (req.body.chefEetMee == true) {
+                    meals.addStudent(result.id, req.body.idKok, function (err, dontcare) {
+                        if (err) console.log(err);
+                    });
+                }
+            }
+        });
+
     },
 
     updateMeal(req, res, next) {
