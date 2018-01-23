@@ -79,6 +79,10 @@ module.exports = {
                         status: 'OK',
                         result: result
                     });
+
+                    if(req.body.chefEetMee == true) {
+                        meals.addStudent(result.id, req.body.idKok);
+                    }
                 }
             });
         }
