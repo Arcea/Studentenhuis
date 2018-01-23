@@ -7,18 +7,32 @@ var Account = function () { }
 Account.register = function (obj, cb) {
     encrypt.hash(obj.password, function (enc, err) {
         if (err == null) {
-            obj.password = enc;
-            student.addStudent([obj.name, obj.email, obj.password], function (err, result) {
-                if (err) {
-                    cb({
-                        status: "failed",
-                        error: "Unexpected error: " + err
-                    });
-                } else {
-                    cb({
-                        status: "success"
-                    });
-                }
+            mysql.connection(function (err, conn) {
+                let query = "SELECT * FROM `student` WHERE email = '" + obj.email + "'";
+                conn.query(query, function (err, result) {
+                    if (err) throw err;
+
+                    if (Object.keys(result).length == 0) {
+                        obj.password = enc;
+                        student.addStudent([obj.name, obj.email, obj.password], function (err, result) {
+                            if (err) {
+                                cb({
+                                    status: "failed",
+                                    error: "Unexpected error: " + err
+                                });
+                            } else {
+                                cb({
+                                    status: "success"
+                                });
+                            }
+                        });
+                    } else {
+                        cb({
+                            status: "failed",
+                            error: "Email already exists"
+                        });
+                    }
+                });
             });
         } else {
             cb({
