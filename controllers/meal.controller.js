@@ -52,6 +52,7 @@ module.exports = {
             let maaltijdAfbeeldingPath = null;
             if(req.body.maaltijdAfbeelding) {
                 let maaltijdAfbeeldingPath = "images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
+                maaltijdAfbeeldingPath = maaltijdAfbeeldingPath.replace(" ", "");
 
                 if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
