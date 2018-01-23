@@ -78,7 +78,7 @@ module.exports = {
                     res.status(200).json({
                         status: 'OK',
                         result: result
-                    }).end();
+                    });
                 }
             });
         }
