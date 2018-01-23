@@ -71,9 +71,9 @@ module.exports = {
     verifyHash: function (text, hash, cb) {
         bcrypt.compare(text, hash, function (err, bool) {
             if (err)
-                cb(null, err);
+                cb(err, null);
 
-            cb(bool, null);
+            cb(null, bool);
         });
     },
 
