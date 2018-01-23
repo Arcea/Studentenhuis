@@ -55,7 +55,7 @@ module.exports = {
                 name = req.body.naamMaaltijd.replace(/ /g, "");
             }
 
-            maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/    " + name + req.body.idKok + req.body.maxEters;
+            maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + name + req.body.idKok + req.body.maxEters;
 
             let maaltijdAfbeeldingPath = "images/" + name + req.body.idKok + req.body.maxEters;
 
@@ -94,9 +94,7 @@ module.exports = {
                 next(err);
             } else {
                 if (req.body.chefEetMee == true) {
-                    console.log(result);
                     meals.addStudent(result.insertId, [req.body.idKok, 1], function (err, result) {
-                        console.log("ehh?");
 
                         if (err) console.log(err);
                     });
