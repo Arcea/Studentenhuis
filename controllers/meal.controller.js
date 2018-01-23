@@ -51,7 +51,7 @@ module.exports = {
             if(req.body.maaltijdAfbeelding) {
                 maaltijdAfbeelingPath = "../../images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
 
-                if(req.body.maaltijdAfbeelding.test(/^data:image\/png;base64,/)) {
+                if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
 
                     let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/png;base64,/, "");
@@ -59,7 +59,7 @@ module.exports = {
                     fs.writeFile(maaltijdAfbeeldingPath, base64Image, 'base64', function(err) {
                         console.log(err);
                     });
-                } else if (req.body.maaltijdAfbeelding.test(/^data:image\/jpeg;base64,/)) {
+                } else if (/^data:image\/jpeg;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".jpg";
 
                     let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/jpeg;base64,/, "");
