@@ -56,6 +56,7 @@ module.exports = {
 
                 if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
+                    maaltijdAfbeeldingUrl += ".png";
 
                     let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/png;base64,/, "");
 
@@ -64,6 +65,7 @@ module.exports = {
                     });
                 } else if (/^data:image\/jpeg;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".jpg";
+                    maaltijdAfbeeldingUrl += ".jpg";
 
                     let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/jpeg;base64,/, "");
 
