@@ -62,10 +62,11 @@ module.exports = {
     updateMeal(req, res, next) {
         console.log('Meal updateMeal');
 
-        if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.maaltijdEindTijd || !req.body.kosten) {
+        if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
+            console.log('fail');
             res.sendStatus(400);
         } else {
-            meals.updateMeal(req.params.id, [req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.maaltijdEindTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
+            meals.updateMeal(req.params.id, [req.body.idKok, req.body.naamMaaltijd, req.body.maaltijdAfbeelding, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
                 if (err) {
                     next(err);
                 } else {
