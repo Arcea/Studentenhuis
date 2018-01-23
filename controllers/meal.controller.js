@@ -49,7 +49,7 @@ module.exports = {
         } else {
             let maaltijdAfbeeldingPath = null;
             if(req.body.maaltijdAfbeelding) {
-                let maaltijdAfbeeldingPath = "../../images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
+                let maaltijdAfbeeldingPath = "images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
                 let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
 
                 if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
