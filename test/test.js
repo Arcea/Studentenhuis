@@ -141,3 +141,83 @@ describe('Updaten van een maaltijd', function(){
     })
 });
 // End Jason testcases
+
+// Timo's testcase.
+// Ophalen van specifieke maaltijd
+describe('Ophalen van specifieke maaltijd', function(){
+    // Eerst ingelogd zijn
+    let loginToken = null;
+    before(function(done){
+        var testUser = {
+            name: "tester",
+            email: "test@mail.nl",
+            // password krijgt een hash door de server
+            password: "123"
+        }
+        chai.request(routes)
+            .post('/login')
+            .send(testUser)
+            .end(function (err, res){
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("status").eql("success");
+                    res.body.should.have.property("token");
+                    loginToken = res.body.token;
+                    console.log(loginToken);
+                done();
+            })  
+    });
+    it('GET /maaltijd/:id', function(done){
+        var id = 2;
+        chai.request(routes)
+            .get('/maaltijd/' + id)
+            .set('authentication', loginToken)
+            .end(function (err, res){
+              console.log(res.body);
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property("status").eql("OK");
+            done();
+        })
+    })
+});
+
+// Verwijderen van maaltijd
+describe('Verwijderen van specifieke maaltijd', function(){
+    // Eerst ingelogd zijn
+    let loginToken = null;
+    before(function(done){
+        var testUser = {
+            name: "tester",
+            email: "test@mail.nl",
+            // password krijgt een hash door de server
+            password: "123"
+        }
+        chai.request(routes)
+            .post('/login')
+            .send(testUser)
+            .end(function (err, res){
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property("status").eql("success");
+                    res.body.should.have.property("token");
+                    loginToken = res.body.token;
+                    console.log(loginToken);
+                done();
+            })  
+    });
+    it('GET /maaltijd/:id', function(done){
+        // We gaan er hiervan uit dat het id 1 bestaat.
+        var id = 1;
+        chai.request(routes)
+            .delete('/maaltijd/' + id)
+            .set('authentication', loginToken)
+            .end(function (err, res){
+              console.log(res.body);
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property("status").eql("OK");
+            done();
+        })
+    })
+});
