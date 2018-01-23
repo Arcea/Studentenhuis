@@ -44,13 +44,13 @@ module.exports = {
     addMeal(req, res, next) {
         let token = req.headers["authentication"];
         req.body.idKok = encrypt.getPayload(token).userID;
+        let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
         if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
             res.sendStatus(400);
         } else {
             let maaltijdAfbeeldingPath = null;
             if(req.body.maaltijdAfbeelding) {
                 let maaltijdAfbeeldingPath = "images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
-                let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
 
                 if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
