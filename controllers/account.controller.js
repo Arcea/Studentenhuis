@@ -54,7 +54,8 @@ Account.login = function (obj, cb) {
                     }, process.env.secret || 'devPassToken');
                     cb({
                         status: "success",
-                        token: token
+                        token: token,
+                        userId: id
                     })
                 } else {
                     cb({
