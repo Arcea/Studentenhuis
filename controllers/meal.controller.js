@@ -44,32 +44,42 @@ module.exports = {
     addMeal(req, res, next) {
         let token = req.headers["authentication"];
         req.body.idKok = encrypt.getPayload(token).userID;
-        let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.maxEters;
-        maaltijdAfbeeldingUrl = maaltijdAfbeeldingUrl.replace(" ", "");
-        if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
-            res.sendStatus(400);
-        } else {
-            let maaltijdAfbeeldingPath = null;
-            if(req.body.maaltijdAfbeelding) {
-                let maaltijdAfbeeldingPath = "images/" + req.body.naamMaaltijd + req.body.idKok + req.body.maxEters;
-                maaltijdAfbeeldingPath = maaltijdAfbeeldingPath.replace(" ", "");
+        var name = "";
+        if (req.body.maaltijdAfbeelding) {
+            if (/[-\/\\^$*+?.()|[\]{}!;:,]/g.test(req.body.naamMaaltijd)) {
+                req.body.naamMaaltijd = req.body.naamMaaltijd.replace(/[-\/\\^$*+?.()|[\]{}!;:,]/g, "");
+            }
 
-                if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
+            for (i = 0; i < req.body.naamMaaltijd.length; i++) {
+                name = req.body.naamMaaltijd.replace(/ /g, "");
+            }
+
+            let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + name + req.body.idKok + req.body.maxEters;
+
+            let maaltijdAfbeeldingPath = "images/" + name + req.body.idKok + req.body.maxEters;
+
+
+            if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
+                res.sendStatus(400);
+            } else {
+
+                if (/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
                     maaltijdAfbeeldingUrl += ".png";
 
-                    let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/png;base64,/, "");
-
-                    fs.writeFile(maaltijdAfbeeldingPath, base64Image, 'base64', function(err) {
+                    let base64Image = req.body.maaltijdAfbeelding.replace("data:image/png;base64,", "");
+                    console.log("into .png");
+                    fs.writeFile(maaltijdAfbeeldingPath, base64Image, { encoding: 'base64' }, function (err) {
                         console.log(err);
                     });
                 } else if (/^data:image\/jpeg;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".jpg";
                     maaltijdAfbeeldingUrl += ".jpg";
 
-                    let base64Image = req.body.maaltijdAfbeelding.replace(/^data:image\/jpeg;base64,/, "");
+                    let base64Image = req.body.maaltijdAfbeelding.replace("data:image/jpeg;base64,", "");
 
-                    fs.writeFile(maaltijdAfbeeldingPath, base64Image, 'base64', function(err) {
+                    fs.writeFile(maaltijdAfbeeldingPath, base64Image, { encoding: 'base64' }, function (err) {
+                        console.log("into .jpeg");
                         console.log(err);
                     });
                 } else {
@@ -85,8 +95,8 @@ module.exports = {
                         result: result
                     });
 
-                    if(req.body.chefEetMee == true) {
-                        meals.addStudent(result.id, req.body.idKok, function(err, dontcare) {
+                    if (req.body.chefEetMee == true) {
+                        meals.addStudent(result.id, req.body.idKok, function (err, dontcare) {
                             if (err) console.log(err);
                         });
                     }
