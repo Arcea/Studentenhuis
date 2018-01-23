@@ -9,7 +9,7 @@ const app = express();
 app.use(function(req, res, next) {
     JWT(req, res, next);
 });
-app.use(bodyParser.urlencoded({ 'extended': 'false' }));
+app.use(bodyParser.urlencoded({ 'extended': 'false', 'limit': '25mb' }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(routes);
