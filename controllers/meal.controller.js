@@ -49,7 +49,8 @@ module.exports = {
         } else {
             let maaltijdAfbeeldingPath = null;
             if(req.body.maaltijdAfbeelding) {
-                maaltijdAfbeelingPath = "../../images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
+                let maaltijdAfbeeldingPath = "../../images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
+                let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
 
                 if(/^data:image\/png;base64,/.test(req.body.maaltijdAfbeelding)) {
                     maaltijdAfbeeldingPath += ".png";
@@ -71,7 +72,7 @@ module.exports = {
                     res.status(400).end("Images only support .png and .jpg");
                 }
             }
-            meals.addMeal([req.body.idKok, req.body.naamMaaltijd, maaltijdAfbeeldingPath, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
+            meals.addMeal([req.body.idKok, req.body.naamMaaltijd, maaltijdAfbeeldingUrl, req.body.maxEters, req.body.maaltijdBeginTijd, req.body.kosten, req.body.beschrijving], function (err, result) {
                 if (err) {
                     next(err);
                 } else {
