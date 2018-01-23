@@ -45,6 +45,7 @@ module.exports = {
         let token = req.headers["authentication"];
         req.body.idKok = encrypt.getPayload(token).userID;
         let maaltijdAfbeeldingUrl = "https://studentenhuis-api.herokuapp.com/images/" + req.body.naamMaaltijd + req.body.idKok + req.body.kosten + req.body.maaltijdBeginTijd;
+        maaltijdAfbeeldingUrl = maaltijdAfbeeldingUrl.replace(" ", "");
         if (!req.body.idKok || !req.body.naamMaaltijd || !req.body.maxEters || !req.body.maaltijdBeginTijd || !req.body.kosten) {
             res.sendStatus(400);
         } else {
