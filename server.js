@@ -9,9 +9,9 @@ const app = express();
 app.use(function(req, res, next) {
     JWT(req, res, next);
 });
-app.use(bodyParser.urlencoded({ 'extended': 'false', 'limit': '25mb' }));
-app.use(bodyParser.json());
-app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(bodyParser.urlencoded({ extended: 'true', limit: '25mb' }));
+app.use(bodyParser.json({ limit: '25mb'}));
+app.use(bodyParser.json({ type: 'application/vnd.api+json', limit: '25mb' }));
 app.use(routes);
 
 let port = process.argv[2] || process.env.PORT || 8000;
